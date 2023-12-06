@@ -1,5 +1,7 @@
 package com.example.json;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,12 +14,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 public class DateJsonTest {
-    static ObjectMapper mapper;
-
-    @BeforeAll
-    static void init() {
-        mapper = new ObjectMapper();
-    }
+    ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
 
     @Test
     void serializeTest() throws Exception {
@@ -25,7 +22,7 @@ public class DateJsonTest {
         Person person = new Person("Dmitrii", null, LocalDate.of(1990, Month.MARCH, 19));
 
         // when
-        String resultJson = mapper.writeValueAsString(person);
+        String resultJson = objectMapper.writeValueAsString(person);
 
         // then
         //language=json
@@ -45,5 +42,7 @@ public class DateJsonTest {
 class Person {
     private String name;
     private Integer age;
+    @JsonFormat(pattern = "yyyy.MM.dd")
+    @JsonSetter("registration_date")
     private LocalDate registrationDate;
 }
