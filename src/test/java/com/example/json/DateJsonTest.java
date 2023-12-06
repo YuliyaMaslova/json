@@ -1,6 +1,7 @@
 package com.example.json;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,8 @@ public class DateJsonTest {
                     "registration_date": "1990.03.19"
                 }
                 """;
-        JSONAssert.assertEquals(expectedJson, resultJson, JSONCompareMode.LENIENT);
+        JSONAssert.assertEquals(expectedJson, resultJson, JSONCompareMode.STRICT);
+        System.out.println(resultJson);
     }
 
 }
