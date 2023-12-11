@@ -1,5 +1,6 @@
 package com.example.json;
 
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,12 +17,8 @@ public class PolymorphismTest {
         Animal dog = new Dog("Rex", "Labrador");
         Animal cat = new Cat("Whiskers", true);
 
-        String expectedDogJson = """
-                {"type":"dog","name":"Rex","breed":"Labrador"}
-                """;
-        String expectedCatJson = """
-                {"type":"cat","name":"Whiskers","isIndoor":true}
-                """;
+        String expectedDogJson = "{\"type\":\"dog\",\"name\":\"Rex\",\"breed\":\"Labrador\"}";
+        String expectedCatJson = "{\"type\":\"cat\",\"name\":\"Whiskers\",\"isIndoor\":true}";
 
         // when
         String dogJson = objectMapper.writeValueAsString(dog);
@@ -40,6 +37,14 @@ public class PolymorphismTest {
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Dog.class, name = "dog"),
+        @JsonSubTypes.Type(value = Cat.class, name = "cat") }
+)
 abstract class Animal {
     private String name;
 }
@@ -58,9 +63,10 @@ class Dog extends Animal {
 @Data
 @NoArgsConstructor
 class Cat extends Animal {
+    @JsonProperty("isIndoor")
     private boolean isIndoor;
 
-    Cat(String name, boolean isIndoor) {
+    Cat( String name, boolean isIndoor) {
         super(name);
         this.isIndoor = isIndoor;
     }
