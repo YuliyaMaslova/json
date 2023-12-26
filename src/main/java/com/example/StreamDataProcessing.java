@@ -1,33 +1,48 @@
 package com.example;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StreamDataProcessing implements DataProcessing {
     @Override
     public List<String> filterStrings(List<String> input, String filter) {
-        return null;
+
+        return input.stream()
+                .filter(s -> s.startsWith(filter))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Optional<Double> average(List<Integer> numbers) {
-        return Optional.empty();
+        OptionalDouble average = numbers.stream()
+                .mapToDouble(Integer::doubleValue)
+                .average();
+
+        return average.isPresent() ? Optional.of(average.getAsDouble()) : Optional.empty();
+
     }
 
     @Override
     public Map<Boolean, List<Integer>> partitionByEvenness(List<Integer> numbers) {
-        return null;
+
+        return numbers.stream()
+                .collect(Collectors.partitioningBy(n -> n % 2 == 0));
     }
 
     @Override
     public String concatenateStrings(List<String> strings) {
-        return null;
+
+        return strings.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(""));
     }
 
     @Override
     public int sumOfSquares(List<Integer> numbers) {
-        return 0;
+
+        return numbers.stream()
+                .mapToInt(n -> n * n)
+                .sum();
     }
 
     @Override

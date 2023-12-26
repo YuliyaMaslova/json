@@ -17,6 +17,8 @@ public class DataProcessingTest {
         List<String> input = Arrays.asList("apple", "banana", "apricot", "cherry");
         List<String> expected = Arrays.asList("apple", "apricot");
 
+
+
         assertEquals(expected, streamProcessor.filterStrings(input, "ap"));
         assertEquals(expected, traditionalProcessor.filterStrings(input, "ap"));
     }
