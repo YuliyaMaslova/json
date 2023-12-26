@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 public class StreamDataProcessing implements DataProcessing {
     @Override
     public List<String> filterStrings(List<String> input, String filter) {
-
         return input.stream()
-                .filter(s -> s.startsWith(filter))
+                .filter(s -> s.contains(filter))
                 .collect(Collectors.toList());
+
     }
 
     @Override
@@ -33,7 +33,7 @@ public class StreamDataProcessing implements DataProcessing {
     public String concatenateStrings(List<String> strings) {
 
         return strings.stream()
-                .map(Object::toString)
+                .map(String::valueOf)
                 .collect(Collectors.joining(""));
     }
 

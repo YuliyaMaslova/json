@@ -10,7 +10,7 @@ public class TraditionalDataProcessing implements DataProcessing {
     public List<String> filterStrings(List<String> input, String filter) {
         List<String> result = new ArrayList<>();
         for (String s : input) {
-            if (s.startsWith(filter)) {
+            if (s.contains(filter)) {
                 result.add(s);
             }
         }
@@ -19,15 +19,21 @@ public class TraditionalDataProcessing implements DataProcessing {
 
     @Override
     public Optional<Double> average(List<Integer> numbers) {
-        if (CollectionUtils.isEmpty(numbers)) {
+        if (numbers.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(numbers.stream().mapToDouble(Number::doubleValue).average().getAsDouble());
+
+        int sum = 0;
+        for (int number : numbers) {
+            sum += number;
+        }
+
+        double average = (double) sum / numbers.size();
+        return Optional.of(average);
     }
 
     @Override
     public Map<Boolean, List<Integer>> partitionByEvenness(List<Integer> numbers) {
-        Map<Boolean, List<Integer>> result = new HashMap<>();
         List<Integer> even = new ArrayList<>();
         List<Integer> odd = new ArrayList<>();
 
@@ -38,6 +44,7 @@ public class TraditionalDataProcessing implements DataProcessing {
                 odd.add(number);
             }
         }
+        Map<Boolean, List<Integer>> result = new HashMap<>();
         result.put(true, even);
         result.put(false, odd);
 
