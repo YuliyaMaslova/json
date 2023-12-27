@@ -82,5 +82,21 @@ public interface DataProcessing {
      * @return Первая строка, длина которой превышает порог, или пустой Optional, если такой строки нет.
      */
     Optional<String> findFirstLongString(List<String> strings, int threshold);
+
+    /**
+     * Создает карту, в которой ключом является id объекта, а значением - сам объект.
+     *
+     * @param objects Список объектов для обработки.
+     * @return Карта с id объектов в качестве ключей и объектами в качестве значений.
+     */
+    Map<Integer, MyObject> createIdToObjectMap(List<MyObject> objects);
+
+    /**
+     * Создает карту, в которой ключом является поле объекта, а значением - список объектов с этим полем.
+     *
+     * @param objects Список объектов для обработки.
+     * @return Карта, группирующая объекты по значению их поля.
+     */
+    Map<String, List<MyObject>> createFieldToObjectListMap(List<MyObject> objects);
 }
 

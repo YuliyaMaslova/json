@@ -188,4 +188,39 @@ public class DataProcessingTest {
         assertEquals(expected, streamProcessor.findFirstLongString(strings, 10));
         assertEquals(expected, traditionalProcessor.findFirstLongString(strings, 10));
     }
+
+    @Test
+    public void testCreateIdToObjectMap() {
+        List<MyObject> objects = Arrays.asList(
+                new MyObject(1, "Field1"),
+                new MyObject(2, "Field2")
+        );
+        Map<Integer, MyObject> result = streamProcessor.createIdToObjectMap(objects);
+        assertEquals(2, result.size());
+        assertTrue(result.containsKey(1));
+        assertTrue(result.containsKey(2));
+
+        result = traditionalProcessor.createIdToObjectMap(objects);
+        assertEquals(2, result.size());
+        assertTrue(result.containsKey(1));
+        assertTrue(result.containsKey(2));
+    }
+
+    @Test
+    public void testCreateFieldToObjectListMap() {
+        List<MyObject> objects = Arrays.asList(
+                new MyObject(1, "Field1"),
+                new MyObject(2, "Field1"),
+                new MyObject(3, "Field2")
+        );
+        Map<String, List<MyObject>> result = streamProcessor.createFieldToObjectListMap(objects);
+        assertEquals(2, result.size());
+        assertEquals(2, result.get("Field1").size());
+        assertEquals(1, result.get("Field2").size());
+
+        result = traditionalProcessor.createFieldToObjectListMap(objects);
+        assertEquals(2, result.size());
+        assertEquals(2, result.get("Field1").size());
+        assertEquals(1, result.get("Field2").size());
+    }
 }
