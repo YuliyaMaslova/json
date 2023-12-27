@@ -1,5 +1,7 @@
 package com.example;
 
+import org.apache.el.stream.Stream;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,21 +49,31 @@ public class StreamDataProcessing implements DataProcessing {
 
     @Override
     public Map<String, Long> countOccurrences(List<String> strings) {
-        return null;
+
+        return strings.stream()
+                .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
     }
 
     @Override
     public List<Integer> sortAndFilterNegatives(List<Integer> numbers) {
-        return null;
+        return numbers.stream()
+                .filter(s -> s >= 0)
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     @Override
     public boolean allMatchPositive(List<Integer> numbers) {
-        return false;
+
+        return numbers.stream()
+                .allMatch(integer -> integer > 0);
     }
 
     @Override
     public Optional<String> findFirstLongString(List<String> strings, int threshold) {
-        return Optional.empty();
+        return strings.stream()
+                .filter(s -> s.length() > threshold)
+                .findFirst();
+
     }
 }

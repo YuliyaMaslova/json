@@ -71,21 +71,45 @@ public class TraditionalDataProcessing implements DataProcessing {
 
     @Override
     public Map<String, Long> countOccurrences(List<String> strings) {
-        return null;
+        Map<String, Long> result = new HashMap<>();
+        for (String i : strings) {
+            Long j = result.get(i);
+            result.put(i, (j == null) ? 1 : j + 1);
+        }
+        return result;
+
     }
 
     @Override
     public List<Integer> sortAndFilterNegatives(List<Integer> numbers) {
-        return null;
+        List<Integer> positiveNumbers = new ArrayList<>();
+        for (Integer number : numbers) {
+            if (number >= 0) {
+                positiveNumbers.add(number);
+            }
+        }
+        Collections.sort(positiveNumbers);
+        return positiveNumbers;
     }
 
     @Override
     public boolean allMatchPositive(List<Integer> numbers) {
-        return false;
+        for (Integer number : numbers) {
+            if (number <= 0) {
+                return false;
+            }
+        }
+        return true;
+
     }
 
     @Override
     public Optional<String> findFirstLongString(List<String> strings, int threshold) {
+        for (String s : strings) {
+            if (s.length() > threshold) {
+                return Optional.of(s);
+            }
+        }
         return Optional.empty();
     }
 }
