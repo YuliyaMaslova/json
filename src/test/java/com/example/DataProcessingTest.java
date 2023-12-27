@@ -223,4 +223,22 @@ public class DataProcessingTest {
         assertEquals(2, result.get("Field1").size());
         assertEquals(1, result.get("Field2").size());
     }
+
+    @Test
+    public void testFindMaxByLength() {
+        List<String> strings = Arrays.asList("Hello", "World", "Java", "Stream");
+        Optional<String> expected = Optional.of("Stream");
+
+        assertEquals(expected, streamProcessor.findMaxByLength(strings));
+        assertEquals(expected, traditionalProcessor.findMaxByLength(strings));
+    }
+
+    @Test
+    public void testSumOfEvenNumbers() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+        int expected = 12; // 2 + 4 + 6
+
+        assertEquals(expected, streamProcessor.sumOfEvenNumbers(numbers));
+        assertEquals(expected, traditionalProcessor.sumOfEvenNumbers(numbers));
+    }
 }

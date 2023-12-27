@@ -98,5 +98,22 @@ public interface DataProcessing {
      * @return Карта, группирующая объекты по значению их поля.
      */
     Map<String, List<MyObject>> createFieldToObjectListMap(List<MyObject> objects);
+
+    /**
+     * Находит строку с максимальной длиной из списка строк.
+     * Если список пуст, возвращает {@link Optional#empty()}.
+     *
+     * @param strings Список строк для поиска.
+     * @return {@link Optional} содержащий строку с максимальной длиной, или пустой Optional, если список пуст.
+     */
+    Optional<String> findMaxByLength(List<String> strings);
+
+    /**
+     * Вычисляет сумму четных чисел в списке.
+     *
+     * @param numbers Список целых чисел для обработки.
+     * @return Сумма четных чисел в списке.
+     */
+    int sumOfEvenNumbers(List<Integer> numbers);
 }
 
