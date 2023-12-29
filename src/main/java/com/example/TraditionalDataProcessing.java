@@ -2,6 +2,7 @@ package com.example;
 
 import org.springframework.util.CollectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -111,5 +112,54 @@ public class TraditionalDataProcessing implements DataProcessing {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Map<Integer, MyObject> createIdToObjectMap(List<MyObject> objects) {
+        Map<Integer, MyObject> map = new HashMap<>();
+        for (MyObject object : objects) {
+            map.put(object.getId(), object);
+        }
+        return map;
+    }
+
+    @Override
+    public Map<String, List<MyObject>> createFieldToObjectListMap(List<MyObject> objects) {
+        Map<String, List<MyObject>> map = new HashMap<>();
+        for (MyObject object : objects) {
+            String field = object.getField();
+            List<MyObject> list = map.getOrDefault(field, new ArrayList<>());
+            list.add(object);
+            map.put(field, list);
+        }
+        return map;
+
+    }
+
+
+    @Override
+    public Optional<String> findMaxByLength(List<String> strings) {
+        if (strings.isEmpty()) {
+            return Optional.empty();
+        }
+        String max = strings.get(0);
+        for (String str : strings) {
+            if (str.length() > max.length()) {
+                max = str;
+            }
+        }
+        return Optional.of(max);
+    }
+
+    @Override
+    public int sumOfEvenNumbers(List<Integer> numbers) {
+        int sum = 0;
+
+        for (Integer number : numbers) {
+            if (number % 2 == 0) {
+                sum += number;
+            }
+        }
+        return sum;
     }
 }

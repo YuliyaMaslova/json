@@ -2,7 +2,11 @@ package com.example;
 
 import org.apache.el.stream.Stream;
 
+import java.awt.event.ItemEvent;
+import java.io.File;
+import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class StreamDataProcessing implements DataProcessing {
@@ -75,5 +79,35 @@ public class StreamDataProcessing implements DataProcessing {
                 .filter(s -> s.length() > threshold)
                 .findFirst();
 
+    }
+
+    @Override
+    public Map<Integer, MyObject> createIdToObjectMap(List<MyObject> objects) {
+
+        return objects.stream()
+                .collect(Collectors.toMap(MyObject::getId, e -> e));
+    }
+
+    @Override
+    public Map<String, List<MyObject>> createFieldToObjectListMap(List<MyObject> objects) {
+        return objects.stream()
+                .collect(Collectors.groupingBy(MyObject::getField));
+
+    }
+
+
+    @Override
+    public Optional<String> findMaxByLength(List<String> strings) {
+        return strings.stream()
+                .max(Comparator.comparing(String::length));
+    }
+
+
+    @Override
+    public int sumOfEvenNumbers(List<Integer> numbers) {
+        return numbers.stream()
+                .filter(n -> n % 2 == 0)
+                .mapToInt(Integer::intValue)
+                .sum();
     }
 }
